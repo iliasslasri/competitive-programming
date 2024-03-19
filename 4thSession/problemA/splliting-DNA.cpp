@@ -11,7 +11,7 @@ using namespace std;
 
 int e(int i, int j, map<pair<int, int>, int>& memo){
     int sum = 0;
-    for (int k = i; k < j+1; k++){
+    for (int k = i; k <= j; k++){
         sum += L[k];
     }
     if ( i == j){
@@ -47,7 +47,7 @@ int main()
         cin >> L[i];
     }
 
-    cout << e(0, N-1, memo);
+    cout << e(0, N-1, memo) << endl;
 }
 
 

@@ -1,11 +1,14 @@
 #include <iostream>
+#include <map>
 
 using namespace std;
 
 char l[100000];
 int k;
-int max_win(int, int);
-int max_with_k(int, int, int);
+char choices[3] = {'H', 'S', 'P'};
+map<pair<pair<int, int>, pair<char, int>>, int> myset;
+
+int max_wins(int, int, char, int);
 int main()
 {
 
@@ -15,61 +18,69 @@ int main()
     {
         cin >> l[i];
     }
-
-    cout << max_win(0, n - 1, k, ' ') << endl;
+    int max = 0;
+    int maxi;
+    for(char c:choices){
+            maxi = max_wins(0, n - 1, c, k);
+            if (max < maxi)
+                max = maxi;
+        }
+    cout << max << endl;
     return 0;
 }
 
-int max_win(int start, int end, int K, char C)
+int max_wins(int i, int j, char c, int k)
 {
-    if (K == 0)
+    // cas de base k = 0
+    if (k == 0)
     { // on ne peut pas changer
         int wins = 0;
-        for (int i = start; i <= end; i++)
-        {
-            if (a_wins(C, l[i]))
+        for (int n = i; n <= j; n++){
+            if (a_wins(c, l[n]))
                 wins++;
         }
         return wins;
     }
-    else if (start == end && K == 0)
+    else if (i == j && k == 0)
     {
         // on ne peut pas gagner que si on peut ganger avec C
-        if (a_wins(C, l[start]))
+        if (a_wins(c, l[i]))
             return 1;
         else
             return 0;
     }
-    else if (start == end && K > 0)
+    else if (i == j && k > 0)
     {
         // on peut tjrs gagnger
         return 1;
     }
-
-    int max = 0;
-    for (char c : {'H', 'S', 'P'})
-    {
-        int max_with_c = max_win(start, end, K, c);
-        if (max_with_c > max)
-        {
-            max = max_with_c;
-        }
+    // if i,j,c,k is in myset return myset[i,j,c,k]
+    if (myset.find({{i, j}, {c, k}}) != myset.end()){
+        return myset[{{i, j}, {c, k}}];
     }
+
+    // recursive
+    int max = 0;
+    int maxi;
+    for (char ch:choices){
+            for (int m = i; m < j; m++){
+                // if (myset.find({{i, m}, {ch,k}}) != myset.end())
+                    maxi = max_wins(i, m, c, 0) + max_wins(m + 1, j, ch, k - 1);
+                if (maxi > max)
+                    max = maxi;
+            }
+        }
+
+    return max;
 }
 
 bool a_wins(char a, char b)
 {
     if (a == 'H' && b == 'S')
-    {
         return true;
-    }
     else if (a == 'S' && b == 'P')
-    {
         return true;
-    }
     else if (a == 'P' && b == 'H')
-    {
         return true;
-    }
     return false;
 }
