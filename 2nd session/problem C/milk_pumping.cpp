@@ -24,16 +24,17 @@ int main(){
         nxt[j-1].insert(make_pair(make_pair(i-1, adjfirst), adjsecond));
     }
     set<int> flows;
-    // extract the flows from nxt 
+    // extract the distinct flows from nxt 
     for (int i = 0; i < N; i++){
         for (auto v : nxt[i]){
             flows.insert(v.second);
         }
     }
-    // Dijsktra ( we will do M dijsktra, because we have M pipes )
+    // Dijsktra ( we will do less then M dijsktra, because we have M pipes )
     k = 0;
     long long res = -1;
     for (int flow : flows){
+        // ---- starting Dijkstra 
         int start_node = 0;
         int dist[N];
         fill(dist, dist+N, INF);

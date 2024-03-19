@@ -2,6 +2,9 @@
 
 int main()
 {
+
+
+    
     long double sum = 0;
     long double x;
     
