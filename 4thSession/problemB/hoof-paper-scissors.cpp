@@ -3,7 +3,7 @@
 
 using namespace std;
 
-char l[100000];
+char l[100001];
 int k;
 char choices[3] = {'H', 'S', 'P'};
 map<pair<pair<int, int>, pair<char, int>>, int> myset;
@@ -62,10 +62,31 @@ int max_wins(int i, int j, char c, int k)
     // recursive
     int max = 0;
     int maxi;
+    // if we already have the value in the set
+    if (myset.find({{i, j}, {c, k}}) != myset.end()){
+        return myset[{{i, j}, {c, k}}];
+    }
+
     for (char ch:choices){
             for (int m = i; m < j; m++){
-                // if (myset.find({{i, m}, {ch,k}}) != myset.end())
+
+                if (myset.find({{i, m}, {c,0}}) != myset.end() && myset.find({{m + 1, j}, {ch, k - 1}}) != myset.end()){
+
+                    maxi = myset[{{i, m}, {c,0}}] + myset[{{m + 1, j}, {ch, k - 1}}];
+
+                } else if (myset.find({{i, m}, {c,0}}) != myset.end()){
+
+                    maxi = myset[{{i, m}, {c,0}}] + max_wins(m + 1, j, ch, k - 1);
+
+                } else if (myset.find({{m + 1, j}, {ch, k - 1}}) != myset.end()){
+
+                    maxi = max_wins(i, m, c, 0) + myset[{{m + 1, j}, {ch, k - 1}}];
+
+                } else {
+
                     maxi = max_wins(i, m, c, 0) + max_wins(m + 1, j, ch, k - 1);
+
+                }
                 if (maxi > max)
                     max = maxi;
             }
