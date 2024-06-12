@@ -41,6 +41,8 @@ int main() {
     //     }
     // }
     long long distances[NB_NODES_MAX];
+    dijkstra(N-1, nxt, P, distances);
+
     long long energy = distancesB[N-1] + distancesA[N-1];
     long long temp_energy = INF;
     for(int i=0; i< N; i++){
@@ -52,7 +54,6 @@ int main() {
         // cout << "m " << m << ", n :" << n << endl;
 
         if(m != INF && n!= INF){
-            dijkstra(i, nxt, P, distances);
             
             // cout << "Distances from node " << endl;
             // for (int i = 0; i < N; i++) {
@@ -64,10 +65,9 @@ int main() {
             // }
 
             if(distances[N-1] != INF){
-                temp_energy = m+ n+ distances[N-1];
-                if(temp_energy < energy){
-                    energy = temp_energy;
-                }
+                temp_energy = m+ n+ distances[i];
+                energy = min(temp_energy,energy);
+                
             }
         }
     }
