@@ -40,11 +40,6 @@ int main(){
         }
     }
 
-    // for (int i=0; i< N; i++){
-    //     for (int j=i+1; j<N; j++){
-    //         cout << "i :" << i << ";j :" << j << "distance is "<< edges[j].first  <<endl;
-    //     }
-    // }
     // minimum spanning tree
     sort(edges.begin(),edges.end());
     long long min_weight_mst = 0;

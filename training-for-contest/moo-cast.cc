@@ -45,6 +45,7 @@ int main(){
     // }
 
     // iterate over all the cows and let the cast start
+    // dfs
     int count =0, result = 0;
     for(int i=0; i<N; i++){
         if ( adj[i].size() == 0){
